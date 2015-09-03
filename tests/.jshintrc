@@ -21,7 +21,11 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+    "nv",
+    "d3",
+    "$",
+    "alert"
   ],
   "node": false,
   "browser": false,
