@@ -12,10 +12,10 @@ export default Ember.Component.extend({
 
   datum: [],
 
-  type: "lines",
+  type: "lineChart",
 
   chartOptions: {},
-  axisOptions: {},
+  axesOptions: {},
   tooltipOptions: {},
   legendOptions: {},
 
@@ -25,20 +25,9 @@ export default Ember.Component.extend({
     return this.get('targetObject') || this;
   }),
 
-  /**
-   * Inner tooltip function
-   * @param d
-   * @returns {*}
-   */
-  tooltipContent(key) {
-    return '<h3 style="background-color: ' + key.color + '">' + key.data.key + '</h3>' + '<p>' + key.data.y + '</p>';
-  },
-
   // Actions
   beforeSetup: Ember.K,
   afterSetup: Ember.K,
-
-
 
   dataObserver: observer('data', 'data.[]', function() {
     this.drawChart();
@@ -51,7 +40,7 @@ export default Ember.Component.extend({
       var selector = "#" + this.get('elementId');
       var chartType = this.get('type');
       var chartOptions = this.get('chartOptions');
-      var axisOptions = this.get('axisOptions');
+      var axesOptions = this.get('axesOptions');
 
       if (isNone(nv.models[chartType])) {
         throw new TypeError(`Could not find chart of type ${chartType}`);
@@ -79,9 +68,9 @@ export default Ember.Component.extend({
       }
 
       // Axes
-      Object.keys(axisOptions).forEach((axis) => {
+      Object.keys(axesOptions).forEach((axis) => {
         if(chart[axis]) {
-          chart[axis].options(axisOptions[axis]);
+          chart[axis].options(axesOptions[axis]);
         } else {
           throw new TypeError(`Could not find axis of type ${axis}`);
         }

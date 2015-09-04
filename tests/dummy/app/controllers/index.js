@@ -14,6 +14,13 @@ export default Ember.Controller.extend({
     color: ['#428bca', '#00b875', '#fc9c12', '#e83878', '#5dc3bb']
   },
 
+  axesOptions: {
+    yAxis: {
+      tickFormat: d3.format(',s'),
+      showMaxMin: false
+    }
+  },
+
   dispatchEvents: {
     multibar: {
       elementClick(e) {
