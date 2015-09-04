@@ -8,17 +8,14 @@ export default Ember.Controller.extend({
   options: {
     chart: {
       height: 500,
-      groupSpacing: 0.1,
       reduceXTicks: true,
       stacked: false,
       transitionDuration: 350,
       color: ['#428bca', '#00b875', '#fc9c12', '#e83878', '#5dc3bb']
     },
-    axes: {
-      yAxis: {
-        tickFormat: d3.format(',s'),
-        showMaxMin: false
-      }
+    yAxis: {
+      tickFormat: d3.format(',s'),
+      showMaxMin: false
     },
     tooltip: {
       gravity: 's',
@@ -27,27 +24,32 @@ export default Ember.Controller.extend({
   },
 
   dispatchEvents: {
+    chart: {
+      stateChange(/*container, chart, e*/) {
+        Ember.Logger.log('State Changed');
+      }
+    },
     multibar: {
-      elementClick(e) {
+      elementClick(container, chart, e) {
         alert(`${e.data.key}: (${e.data.x}, ${e.data.y})`);
       }
     },
     lines: {
-      elementClick(e) {
+      elementClick(container, chart, e) {
         alert(`${e.series.key}: (${e.point.x}, ${e.point.y})`);
       }
     }
   },
 
 
-  beforeSetup(svgContainer /*, chart*/ ) {
-    svgContainer.attr({
+  beforeSetup(container /*, chart*/ ) {
+    container.attr({
       height: 500
     });
   },
 
-  afterSetup(svgContainer /*, chart*/ ) {
-    svgContainer.selectAll('g.nv-axis.nv-x text')
+  afterSetup(container /*, chart*/ ) {
+    container.selectAll('g.nv-axis.nv-x text')
       .filter(function() {
         return $(this).css('opacity') === "1";
       })

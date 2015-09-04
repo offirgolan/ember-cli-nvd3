@@ -14,6 +14,8 @@ export default Ember.Component.extend({
   options: {},
   dispatchEvents: {},
 
+  _container: null,
+
   // Actions
   beforeSetup: Ember.K,
   afterSetup: Ember.K,
@@ -28,11 +30,9 @@ export default Ember.Component.extend({
 
   drawChart() {
     nv.addGraph(() => {
-      var chart;
-
-      var selector = "#" + this.get('elementId');
-      var chartType = this.get('type');
-      var options = this.get('options');
+      let chart;
+      let chartType = this.get('type');
+      let selector = "#" + this.get('elementId');
 
       if (isNone(nv.models[chartType])) {
         throw new TypeError(`Could not find chart of type ${chartType}`);
@@ -40,38 +40,15 @@ export default Ember.Component.extend({
 
       Ember.$(selector).html("");
 
-      var svgContainer = d3.select(selector).append("svg");
+      let svgContainer = d3.select(selector).append("svg");
 
       chart = nv.models[chartType]();
 
+      this.set('_container', svgContainer);
+
       this.get('beforeSetup')(svgContainer, chart);
 
-      // Chart Options
-      if (options.chart) {
-        chart.options(options.chart);
-      }
-
-      // Tooltip
-      if (chart.tooltip && options.tooltip) {
-        chart.tooltip.options(options.tooltip);
-      }
-
-      // Legend
-      if (chart.legend && options.legend) {
-        chart.legend.options(options.legend);
-      }
-
-      // Axes
-      if (options.axes) {
-        let axes = options.axes;
-        Object.keys(axes).forEach((axis) => {
-          if (chart[axis]) {
-            chart[axis].options(axes[axis]);
-          } else {
-            throw new TypeError(`Could not find axis of type ${axis}`);
-          }
-        });
-      }
+      this.evaluateOptions(chart);
 
       // Dispatched events setup
       this.setupEvents(chart);
@@ -88,16 +65,32 @@ export default Ember.Component.extend({
     });
   },
 
+  evaluateOptions(chart) {
+    let options = this.get('options');
+    let type = this.get('type');
+    Object.keys(options).forEach(key => {
+      if (key === 'chart' && chart.options) {
+        chart.options(options[key]);
+      } else if (chart[key] && chart[key].options) {
+        chart[key].options(options[key]);
+      } else {
+        Ember.Logger.warn(`${key} is not a valid property for chart of type '${type}'`);
+      }
+    });
+  },
+
   setupEvents(chart) {
     var events = this.get('dispatchEvents');
     var context = this.get('eventContext');
+    var container = this.get('_container');
 
     Object.keys(events).forEach((key) => {
       let eventsObj = events[key];
       Object.keys(eventsObj).forEach((e) => {
-        if (chart[key] && chart[key].dispatch) {
-          chart[key].dispatch.on(e, function() {
-            eventsObj[e].apply(context, arguments);
+        let dispatchingObj = key === 'chart' ? chart : chart[key];
+        if (dispatchingObj && dispatchingObj.dispatch) {
+          dispatchingObj.dispatch.on(e, function() {
+            eventsObj[e].call(context, container, chart, ...arguments);
           });
         }
       });

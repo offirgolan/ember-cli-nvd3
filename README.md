@@ -44,49 +44,27 @@ options: {
 {{nvd3-chart type='lineChart' datum=datum options=options}}
 ```
 
-### Axes Options
-All axis specific options can be specified via the `options.axes` property.
+### Other Options
+All other option can be freely specified under the `options` object. 
 
 ```javascript
 options: {
-  axes: {
-    xAxis: {
-      axisLabel: 'Time (ms)'
-      tickFormat: d3.format(',r')
-    },
-    yAxis: {
-      axisLabel: 'Voltage (v)'
-      tickFormat: d3.format('.02f')
+  bars1: {
+    groupSpacing: 0.1
+  },
+  xAxis: {
+    tickFormat(d) {
+      return d3.time.format('%b %e')(new Date(d));
     }
-  }
-}
-```
-
-```handlebars
-{{nvd3-chart type='lineChart' datum=datum options=options}}
-```
-
-### Tooltip Options
-All tooltip specific options can be specified via the `options.tooltip` property.
-
-```javascript
-options: {
+  },
+  yAxis1: {
+    tickFormat: d3.format(',s'),
+    showMaxMin: false
+  },
   tooltip: {
     gravity: 'n',
     headerFormatter(d) { return d + ' monkeys' }
-  }
-}
-```
-
-```handlebars
-{{nvd3-chart type='lineChart' datum=datum options=options}}
-```
-
-### Legend Options
-All legend specific options can be specified via the `options.legend` property.
-
-```javascript
-options: {
+  },
   legend: {
     rightAlign: false,
     vers: 'furious'
@@ -99,12 +77,17 @@ options: {
 ```
 
 ### Dispatch Events
-All events you want to dispatch can be specified via the `dispatchEvents` property.
+All events you want to dispatch can be specified via the `dispatchEvents` property. All chart specific events should be defined under the `chart` property.
 
 ```javascript
 dispatchEvents: {
+  chart: {
+    stateChange(container, chart, e) {
+      console.log('State Changed');
+    }
+  },
   lines: {
-    elementClick(e) {
+    elementClick(container, chart, e) {
       alert(`${e.series.key}: (${e.point.x}, ${e.point.y})`);
     }
   }
