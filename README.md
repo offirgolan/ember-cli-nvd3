@@ -1,6 +1,8 @@
 # Ember CLI NVD3
 An EmberJS [NVD3](http://nvd3.org/) wrapper
 
+[![Build Status](https://travis-ci.org/offirgolan/ember-cli-d3.svg)](https://travis-ci.org/offirgolan/ember-cli-d3)
+
 ## Installation ##
 ```shell
 ember install ember-cli-nvd3

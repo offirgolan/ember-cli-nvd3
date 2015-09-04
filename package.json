@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-nvd3",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An EmberJS NVD3 wrapper",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,10 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/offirgolan/ember-cli-nvd3.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -38,7 +41,8 @@
     "ember-try": "0.0.6"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "nvd3"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.3",
