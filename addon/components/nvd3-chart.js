@@ -9,25 +9,18 @@ const {
 
 export default Ember.Component.extend({
   classNames: ['nvd3-chart'],
-
-  datum: [],
-
   type: "lineChart",
-
-  chartOptions: {},
-  axesOptions: {},
-  tooltipOptions: {},
-  legendOptions: {},
-
+  datum: [],
+  options: {},
   dispatchEvents: {},
-
-  eventContext: computed(function() {
-    return this.get('targetObject') || this;
-  }),
 
   // Actions
   beforeSetup: Ember.K,
   afterSetup: Ember.K,
+
+  eventContext: computed(function() {
+    return this.get('targetObject') || this;
+  }),
 
   dataObserver: observer('data', 'data.[]', function() {
     this.drawChart();
@@ -39,8 +32,7 @@ export default Ember.Component.extend({
 
       var selector = "#" + this.get('elementId');
       var chartType = this.get('type');
-      var chartOptions = this.get('chartOptions');
-      var axesOptions = this.get('axesOptions');
+      var options = this.get('options');
 
       if (isNone(nv.models[chartType])) {
         throw new TypeError(`Could not find chart of type ${chartType}`);
@@ -55,26 +47,31 @@ export default Ember.Component.extend({
       this.get('beforeSetup')(svgContainer, chart);
 
       // Chart Options
-      chart.options(chartOptions);
+      if (options.chart) {
+        chart.options(options.chart);
+      }
 
       // Tooltip
-      if (chart.tooltip) {
-        chart.tooltip.options(this.get('tooltipOptions'));
+      if (chart.tooltip && options.tooltip) {
+        chart.tooltip.options(options.tooltip);
       }
 
       // Legend
-      if (chart.legend) {
-        chart.legend.options(this.get('legendOptions'));
+      if (chart.legend && options.legend) {
+        chart.legend.options(options.legend);
       }
 
       // Axes
-      Object.keys(axesOptions).forEach((axis) => {
-        if(chart[axis]) {
-          chart[axis].options(axesOptions[axis]);
-        } else {
-          throw new TypeError(`Could not find axis of type ${axis}`);
-        }
-      });
+      if (options.axes) {
+        let axes = options.axes;
+        Object.keys(axes).forEach((axis) => {
+          if (chart[axis]) {
+            chart[axis].options(axes[axis]);
+          } else {
+            throw new TypeError(`Could not find axis of type ${axis}`);
+          }
+        });
+      }
 
       // Dispatched events setup
       this.setupEvents(chart);
@@ -98,7 +95,7 @@ export default Ember.Component.extend({
     Object.keys(events).forEach((key) => {
       let eventsObj = events[key];
       Object.keys(eventsObj).forEach((e) => {
-        if(chart[key] && chart[key].dispatch) {
+        if (chart[key] && chart[key].dispatch) {
           chart[key].dispatch.on(e, function() {
             eventsObj[e].apply(context, arguments);
           });

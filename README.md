@@ -29,65 +29,73 @@ All you need to get started is to specify which type of chart you want and the d
 ## Options
 
 ### Chart Options
-All chart specific options can be specified via the `chartOptions` property.
+All chart specific options can be specified via the `options.chart` property.
 
 ```javascript
-chartOptions: {
-  height: 500,
-  color: ["#FF0000","#00FF00","#0000FF"]
-}
-```
-
-```handlebars
-{{nvd3-chart type='lineChart' datum=datum chartOptions=chartOptions}}
-```
-
-### Axes Options
-All axis specific options can be specified via the `axesOptions` property.
-
-```javascript
-axesOptions: {
-  xAxis: {
-    axisLabel: 'Time (ms)'
-    tickFormat: d3.format(',r')
-  },
-  yAxis: {
-    axisLabel: 'Voltage (v)'
-    tickFormat: d3.format('.02f')
+options: {
+    chart: {
+      height: 500,
+      color: ["#FF0000","#00FF00","#0000FF"]
   }
 }
 ```
 
 ```handlebars
-{{nvd3-chart type='lineChart' datum=datum axesOptions=axesOptions}}
+{{nvd3-chart type='lineChart' datum=datum options=options}}
+```
+
+### Axes Options
+All axis specific options can be specified via the `options.axes` property.
+
+```javascript
+options: {
+  axes: {
+    xAxis: {
+      axisLabel: 'Time (ms)'
+      tickFormat: d3.format(',r')
+    },
+    yAxis: {
+      axisLabel: 'Voltage (v)'
+      tickFormat: d3.format('.02f')
+    }
+  }
+}
+```
+
+```handlebars
+{{nvd3-chart type='lineChart' datum=datum options=options}}
 ```
 
 ### Tooltip Options
-All tooltip specific options can be specified via the `tooltipOptions` property.
+All tooltip specific options can be specified via the `options.tooltip` property.
 
 ```javascript
-tooltipOptions: {
-  gravity: 'n',
-  headerFormatter(d) { return d + ' monkeys' }
+options: {
+  tooltip: {
+    gravity: 'n',
+    headerFormatter(d) { return d + ' monkeys' }
+  }
 }
 ```
 
 ```handlebars
-{{nvd3-chart type='lineChart' datum=datum tooltipOptions=tooltipOptions}}
+{{nvd3-chart type='lineChart' datum=datum options=options}}
 ```
 
 ### Legend Options
-All legend specific options can be specified via the `legendOptions` property.
+All legend specific options can be specified via the `options.legend` property.
 
 ```javascript
-legendOptions: {
-  rightAlign: false,
-  vers: 'furious'
+options: {
+  legend: {
+    rightAlign: false,
+    vers: 'furious'
+  }
 }
 ```
 
 ```handlebars
-{{nvd3-chart type='lineChart' datum=datum legendOptions=legendOptions}}
+{{nvd3-chart type='lineChart' datum=datum options=options}}
 ```
 
 ### Dispatch Events
@@ -155,6 +163,18 @@ afterSetup(svgContainer /*, chart*/) {
 
 ```handlebars
 {{nvd3-chart type='lineChart' datum=datum afterSetup=afterSetup}}
+```
+
+
+## Styling
+This addon imports the nvd3 css into your application. To disable that, add the following to your `ember-cli-build.js`
+
+```javascript
+var app = new EmberApp(defaults, {
+  'ember-cli-nvd3': {
+    includeCss: false
+  }
+});
 ```
 
 # Want to help?
