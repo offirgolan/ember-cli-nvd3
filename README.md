@@ -1,7 +1,12 @@
 # Ember CLI NVD3
-An EmberJS [NVD3](http://nvd3.org/) wrapper
 
-[![Build Status](https://travis-ci.org/offirgolan/ember-cli-d3.svg)](https://travis-ci.org/offirgolan/ember-cli-d3)
+[![Build Status](https://travis-ci.org/offirgolan/ember-cli-d3.svg)](https://travis-ci.org/offirgolan/ember-cli-d3) 
+[![npm version](https://badge.fury.io/js/ember-cli-nvd3.svg)](http://badge.fury.io/js/ember-cli-nvd3)
+[![Code Climate](https://codeclimate.com/github/offirgolan/ember-cli-nvd3/badges/gpa.svg)](https://codeclimate.com/github/offirgolan/ember-cli-nvd3)
+[![Dependency Status](https://david-dm.org/offirgolan/ember-cli-nvd3.svg)](https://david-dm.org/offirgolan/ember-cli-nvd3)
+[![devDependency Status](https://david-dm.org/offirgolan/ember-cli-nvd3/dev-status.svg)](https://david-dm.org/offirgolan/ember-cli-nvd3#info=devDependencies)
+
+An EmberJS [NVD3](http://nvd3.org/) wrapper
 
 ## Installation ##
 ```shell
