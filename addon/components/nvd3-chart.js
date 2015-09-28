@@ -24,7 +24,7 @@ export default Ember.Component.extend({
     return this.get('targetObject') || this;
   }),
 
-  dataObserver: observer('data', 'data.[]', function() {
+  datumObserver: observer('datum', 'datum.[]', function() {
     this.drawChart();
   }),
 
