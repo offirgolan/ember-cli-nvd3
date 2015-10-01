@@ -4,6 +4,7 @@ const {
   computed,
   observer,
   isNone,
+  run,
   on
 } = Ember;
 
@@ -24,11 +25,15 @@ export default Ember.Component.extend({
     return this.get('targetObject') || this;
   }),
 
-  datumObserver: observer('datum', 'datum.[]', function() {
-    this.drawChart();
-  }),
+  reDraw: on('didInsertElement', observer('datum', 'datum.[]', function() {
+    run.scheduleOnce('render', this, this.drawChart);
+  })),
 
   drawChart() {
+    if (this.isDestroyed || this.isDestroying) {
+      return;
+    }
+
     nv.addGraph(() => {
       let chart;
       let chartType = this.get('type');
@@ -95,10 +100,5 @@ export default Ember.Component.extend({
         }
       });
     });
-
-  },
-
-  onDidInsertElement: on('didInsertElement', function() {
-    this.drawChart();
-  }),
+  }
 });

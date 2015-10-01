@@ -1,9 +1,26 @@
 import Ember from 'ember';
-// import MultiBarChartData from '../models/multiBarChart';
+import {
+  stream_layers
+}
+from '../utils/stream-layers';
 import LineChartData from '../models/lineChart';
 
 export default Ember.Controller.extend({
-  datum: LineChartData,
+  datumLine: LineChartData,
+  datumBar: Ember.computed(function() {
+    return this.getBarData();
+  }),
+
+  getBarData() {
+    return stream_layers(3, 10 + Math.random() * 10, 0.1).map(function(data, i) {
+      return {
+        key: 'Stream' + i,
+        values: data
+      };
+    });
+  },
+
+  isLineChart: true,
 
   options: {
     chart: {
@@ -25,7 +42,7 @@ export default Ember.Controller.extend({
 
   dispatchEvents: {
     chart: {
-      stateChange(/*container, chart, e*/) {
+      stateChange( /*container, chart, e*/ ) {
         Ember.Logger.log('State Changed');
       }
     },
@@ -58,5 +75,15 @@ export default Ember.Controller.extend({
       .on("click", function(x) {
         alert(`X-Axis: ${x}`);
       });
+  },
+
+  actions: {
+    toggleChart() {
+        this.toggleProperty('isLineChart');
+      },
+
+      refreshData() {
+        this.set('datumBar', this.getBarData());
+      }
   }
 });
