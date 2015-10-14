@@ -38,6 +38,7 @@ export default Ember.Component.extend({
       let chart;
       let chartType = this.get('type');
       let selector = "#" + this.get('elementId');
+      let context = this.get('eventContext');
 
       if (isNone(nv.models[chartType])) {
         throw new TypeError(`Could not find chart of type ${chartType}`);
@@ -51,7 +52,7 @@ export default Ember.Component.extend({
 
       this.set('_container', svgContainer);
 
-      this.get('beforeSetup')(svgContainer, chart);
+      this.get('beforeSetup').call(context, svgContainer, chart);
 
       this.evaluateOptions(chart);
 
@@ -61,7 +62,7 @@ export default Ember.Component.extend({
       svgContainer.datum(this.get('datum'));
       svgContainer.call(chart);
 
-      this.get('afterSetup')(svgContainer, chart);
+      this.get('afterSetup').call(context, svgContainer, chart);
 
       // Handle window resize
       nv.utils.windowResize(chart.update);
