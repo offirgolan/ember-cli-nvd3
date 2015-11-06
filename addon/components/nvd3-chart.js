@@ -30,11 +30,11 @@ export default Ember.Component.extend({
   })),
 
   drawChart() {
-    if (this.isDestroyed || this.isDestroying) {
-      return;
-    }
-
     nv.addGraph(() => {
+      if (this.isDestroyed || this.isDestroying) {
+        return;
+      }
+
       let chart;
       let chartType = this.get('type');
       let selector = "#" + this.get('elementId');
