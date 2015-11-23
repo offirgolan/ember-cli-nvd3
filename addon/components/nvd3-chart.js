@@ -52,7 +52,7 @@ export default Ember.Component.extend({
 
       this.set('_container', svgContainer);
 
-      this.get('beforeSetup').call(context, svgContainer, chart);
+      run(() => this.get('beforeSetup').call(context, svgContainer, chart));
 
       this.evaluateOptions(chart);
 
@@ -62,7 +62,7 @@ export default Ember.Component.extend({
       svgContainer.datum(this.get('datum'));
       svgContainer.call(chart);
 
-      this.get('afterSetup').call(context, svgContainer, chart);
+      run(() => this.get('afterSetup').call(context, svgContainer, chart));
 
       // Handle window resize
       nv.utils.windowResize(chart.update);
