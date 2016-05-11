@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 import {
   stream_layers
 }
@@ -31,7 +32,7 @@ export default Ember.Controller.extend({
       color: ['#428bca', '#00b875', '#fc9c12', '#e83878', '#5dc3bb']
     },
     yAxis: {
-      tickFormat: d3.format(',s'),
+      tickFormat: typeof FastBoot === 'undefined' ? d3.format(',s') : null,
       showMaxMin: false
     },
     tooltip: {
@@ -68,7 +69,7 @@ export default Ember.Controller.extend({
   afterSetup(container /*, chart*/ ) {
     container.selectAll('g.nv-axis.nv-x text')
       .filter(function() {
-        return $(this).css('opacity') === "1";
+        return Ember.$(this).css('opacity') === "1";
       })
       .style("pointer-events", "visiblePainted")
       .style("cursor", "pointer")

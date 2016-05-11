@@ -6,6 +6,6 @@ module.exports = {
   normalizeEntityName: function() {},
 
   beforeInstall: function() {
-    return this.addAddonToProject('ember-nvd3-shim@~0.1.0');
+    return this.addAddonToProject('ember-nvd3-shim@~0.1.1');
   }
 };
