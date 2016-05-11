@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import d3 from 'd3';
+import nv from 'nv';
 
 const {
   computed,

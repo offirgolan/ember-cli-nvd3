@@ -5,10 +5,7 @@ module.exports = {
 
   normalizeEntityName: function() {},
 
-  afterInstall: function() {
-    return RSVP.all([
-      this.addBowerPackageToProject('d3'),
-      this.addBowerPackageToProject('nvd3', '1.8.1'),
-    ]);
+  beforeInstall: function() {
+    return this.addAddonToProject('ember-nvd3-shim@~0.1.1');
   }
 };
