@@ -80,11 +80,11 @@ export default Ember.Controller.extend({
 
   actions: {
     toggleChart() {
-        this.toggleProperty('isLineChart');
-      },
+      this.toggleProperty('isLineChart');
+    },
 
-      refreshData() {
-        this.set('datumBar', this.getBarData());
-      }
+    refreshData() {
+      this.set('datumBar', this.getBarData());
+    }
   }
 });

@@ -67,10 +67,20 @@ export default Ember.Component.extend({
       run(() => this.get('afterSetup').call(context, svgContainer, chart));
 
       // Handle window resize
-      nv.utils.windowResize(chart.update);
+      this.set('_windowResizeHandler', nv.utils.windowResize(chart.update));
 
       return chart;
     });
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+
+    const resizeHandler = this.get('_windowResizeHandler');
+
+    if(resizeHandler && resizeHandler.clear) {
+      resizeHandler.clear();
+    }
   },
 
   evaluateOptions(chart) {
