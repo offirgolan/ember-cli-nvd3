@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-nvd3",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "An EmberJS NVD3 wrapper",
   "directories": {
     "doc": "doc",
