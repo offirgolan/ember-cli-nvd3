@@ -7,17 +7,19 @@ const {
   observer,
   isNone,
   run,
-  on
+  on,
+  $
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['nvd3-chart'],
-  type: "lineChart",
+  type: 'lineChart',
   datum: [],
   options: {},
   dispatchEvents: {},
 
   _container: null,
+  _chart: null,
 
   // Actions
   beforeSetup: Ember.K,
@@ -39,20 +41,21 @@ export default Ember.Component.extend({
 
       let chart;
       let chartType = this.get('type');
-      let selector = "#" + this.get('elementId');
+      let selector = '#' + this.get('elementId');
       let context = this.get('eventContext');
+      let svgContainer;
 
       if (isNone(nv.models[chartType])) {
         throw new TypeError(`Could not find chart of type ${chartType}`);
       }
 
-      Ember.$(selector).html("");
+      $(selector).html('');
 
-      let svgContainer = d3.select(selector).append("svg");
-
+      svgContainer = d3.select(selector).append('svg');
       chart = nv.models[chartType]();
 
       this.set('_container', svgContainer);
+      this.set('_chart', chart);
 
       run(() => this.get('beforeSetup').call(context, svgContainer, chart));
 
@@ -76,10 +79,17 @@ export default Ember.Component.extend({
   willDestroyElement() {
     this._super(...arguments);
 
+    const chart = this.get('_chart');
     const resizeHandler = this.get('_windowResizeHandler');
 
     if(resizeHandler && resizeHandler.clear) {
       resizeHandler.clear();
+    }
+
+    // Remove tooltips
+    if(chart.tooltip) {
+      chart.tooltip.hideDelay(0); // Set the delay to 0 so tooltips will be instantly removed
+      chart.tooltip.hidden(true);
     }
   },
 

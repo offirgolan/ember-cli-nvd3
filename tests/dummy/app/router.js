@@ -6,6 +6,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('line-chart');
+  this.route('bar-chart');
 });
 
 export default Router;
