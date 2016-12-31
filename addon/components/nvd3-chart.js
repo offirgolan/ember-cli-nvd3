@@ -22,8 +22,8 @@ export default Ember.Component.extend({
   _chart: null,
 
   // Actions
-  beforeSetup: Ember.K,
-  afterSetup: Ember.K,
+  beforeSetup() {},
+  afterSetup() {},
 
   eventContext: computed(function() {
     return this.get('targetObject') || this;
