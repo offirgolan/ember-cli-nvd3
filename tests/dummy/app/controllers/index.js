@@ -59,25 +59,6 @@ export default Ember.Controller.extend({
     }
   },
 
-
-  beforeSetup(container /*, chart*/ ) {
-    container.attr({
-      height: 500
-    });
-  },
-
-  afterSetup(container /*, chart*/ ) {
-    container.selectAll('g.nv-axis.nv-x text')
-      .filter(function() {
-        return Ember.$(this).css('opacity') === "1";
-      })
-      .style("pointer-events", "visiblePainted")
-      .style("cursor", "pointer")
-      .on("click", function(x) {
-        alert(`X-Axis: ${x}`);
-      });
-  },
-
   actions: {
     toggleChart() {
       this.toggleProperty('isLineChart');
@@ -85,6 +66,24 @@ export default Ember.Controller.extend({
 
     refreshData() {
       this.set('datumBar', this.getBarData());
-    }
+    },
+
+    beforeSetup(container /*, chart*/ ) {
+      container.attr({
+        height: 500
+      });
+    },
+
+    afterSetup(container /*, chart*/ ) {
+      container.selectAll('g.nv-axis.nv-x text')
+        .filter(function() {
+          return Ember.$(this).css('opacity') === "1";
+        })
+        .style("pointer-events", "visiblePainted")
+        .style("cursor", "pointer")
+        .on("click", function(x) {
+          alert(`X-Axis: ${x}`);
+        });
+    },
   }
 });
