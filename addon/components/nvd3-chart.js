@@ -87,7 +87,7 @@ export default Ember.Component.extend({
     }
 
     // Remove tooltips
-    if(chart.tooltip) {
+    if(chart && chart.tooltip) {
       chart.tooltip.hideDelay(0); // Set the delay to 0 so tooltips will be instantly removed
       chart.tooltip.hidden(true);
     }
