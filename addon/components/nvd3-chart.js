@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   afterSetup() {},
 
   eventContext: computed(function() {
-    return this.get('targetObject') || this;
+    return this.get('target') || this;
   }),
 
   reDraw: on('didInsertElement', observer('datum', 'datum.[]', function() {
